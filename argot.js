@@ -50,9 +50,18 @@ server.get("/todas", (req, res, next)=>{ //request : peticion , response : respu
 
 
 server.post("/palabras",(req, res, next)=>{
-    let nuevaPalabra = new Palabra( req.body.name, req.body.definition, req.body.location);
-    diccionario.push(nuevaPalabra)
-    res.json(nuevaPalabra);
+    //let nuevaPalabra = new Palabra( req.body.name, req.body.definition, req.body.location);
+    //diccionario.push(nuevaPalabra)
+    //res.json(nuevaPalabra);
+
+    const dbPalabra = new CollectionPalabras({ name: req.body.name, definition: req.body.definition, location: req.body.location })
+    .save()
+    .then(()=>{
+        res.json(dbPalabra);
+    })
+    .catch(()=>{
+        res.json("error insertndo la palabra")
+    });
 });
 
 
